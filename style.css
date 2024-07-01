@@ -57,3 +57,16 @@ section{
 .blink {
     animation: blink 1.5s infinite;
 }
+
+@media (max-width: 576px) { /* XS 사이즈에서 조정 */
+    h1 {
+        font-size: 40px;
+    }
+    .input-area {
+        flex-direction: column; /* 세로 정렬 */
+        align-items: flex-start; /* 왼쪽 정렬 */
+    }
+    #result-img {
+        max-width: 80%;
+    }
+}

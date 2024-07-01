@@ -89,7 +89,7 @@ $(document).ready(function(){
     let computerNum = 0;
     let userNum = $('#user-num').val();
     let userNumHistory = [];
-    let chances = 5;
+    let chances = 3;
     let gameOver = false;
 
     //맞춰야 할 숫자 자동 생성    
@@ -98,18 +98,19 @@ $(document).ready(function(){
     }
     randomNum();    
     console.log(computerNum);
+    $('#answer').text(`정답: ${computerNum}`);
 
     //Go버튼을 눌렀을 때
     $('#go-btn').click(function(){
         userNum = $('#user-num').val();
 
         if(userNum < 1 || userNum > 100){
-            $('#result-area').text("1~100사이 숫자를 입력하세요.");
+            $('#result-area').text("1~100사이 숫자를 입력하세요.").removeClass('blink');
             return;
         }
 
         if(userNumHistory.includes(userNum)){
-            $('#result-area').text("이미 입력한 숫자입니다.");
+            $('#result-area').text("이미 입력한 숫자입니다.").removeClass('blink');
             return;
         }
 
@@ -117,9 +118,9 @@ $(document).ready(function(){
         $('#chance-num').text(`남은기회: ${chances}번`);        
 
         if(userNum < computerNum){
-            $('#result-area').text("UP!!").css('color', 'red').removeClass('blink');;
+            $('#result-area').text("UP!!").css('color', 'red').removeClass('blink');
         }else if(userNum > computerNum){
-            $('#result-area').text("DOWN!!").css('color', 'green').removeClass('blink');;
+            $('#result-area').text("DOWN!!").css('color', 'green').removeClass('blink');
         }else{
             $('#result-area').text("YOU'RE RIGHT!!!!").addClass("blink");
             $('#result-img').attr('src', 'https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExZzIxZ3Jud2dnYjhmZW12dWZ6NG4zbHF2YmhxeW44enZjNW9zeGtxcyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/U15K44Hl3zvbd1n3oG/giphy.webp').show();
@@ -128,11 +129,16 @@ $(document).ready(function(){
         userNumHistory.push(userNum);
 
         if(chances == 0){
-            gameOver = true;
+            if(userNum == computerNum){
+                $('#result-area').text("YOU'RE RIGHT!!!!").addClass("blink");
+            $('#result-img').attr('src', 'https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExZzIxZ3Jud2dnYjhmZW12dWZ6NG4zbHF2YmhxeW44enZjNW9zeGtxcyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/U15K44Hl3zvbd1n3oG/giphy.webp').show();
+            }else{
+               gameOver = true;
             $('#result-area').text("DRINK! DRINK!!").addClass('blink');
             $('#result-img').attr('src', 'https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExZGVmNnFtNjZta2hjYzByaGV4ZjM0ZWQ2MXZqbjNrOXM4dGx3aW16dyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/2ePBOQ0LzXv4k/giphy.webp').show();
             $('#result-img')
-            $('#user-num').val('');
+            $('#user-num').val(''); 
+            }            
         }
 
         if(gameOver){
@@ -144,11 +150,12 @@ $(document).ready(function(){
     $('#reset-btn').click(function(){
         randomNum();
         console.log(computerNum);
+        $('#answer').text(`정답: ${computerNum}`);
         gameOver=false;
-        chances = 5;
+        chances = 3;
         userNumHistory = [];
         $('#go-btn').prop('disabled', false);
-        $('#chance-num').text(`남은기회: 5번`);
+        $('#chance-num').text(`남은기회: 3번`);
         $('#result-area').text('');
         $('#user-num').val('');
         $('#result-img').attr('src', '').hide();
